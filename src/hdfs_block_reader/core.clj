@@ -1,4 +1,4 @@
-(ns hdfs-block-reader.core
+(ns hdfs-block-reader.writer
   (:import [org.apache.hadoop.fs Path]
            [org.apache.hadoop.fs FileSystem]
            [org.apache.hadoop.conf Configuration]
@@ -6,10 +6,11 @@
 
 (defn -main [& args]
   (System/setProperty "HADOOP_USER_NAME" "root")
-  (let [pt (Path. "hdfs://0.0.0.0:9000/target_file.txt")
+  (let [pt (Path. "hdfs://0.0.0.0:9000/foo.txt")
         cfg (Configuration.)
-        _ (.addResource cfg (Path. "file:///home/root/core-site.xml"))
+        _ (.addResource cfg (Path. "file:///home/core-site.xml"))
         fs (FileSystem/get cfg)
         br (BufferedWriter. (OutputStreamWriter. (.create fs pt true)))]
-    (.write br "Hello Onyx world!")
+    (doseq [k (range 10000000)]
+      (.write br (str "Hello Onyx world! " k)))
     (.close br)))
