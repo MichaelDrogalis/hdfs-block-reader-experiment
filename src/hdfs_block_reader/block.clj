@@ -14,7 +14,7 @@
         status (.getFileStatus fs pt)
         blocks (.getFileBlockLocations fs status 0 (.getLen status))]
     (doseq [b blocks]
-      (let [fdis (FSDataInputStream. (InputStreamReader. (.open fs pt)))
+      (let [fdis (FSDataInputStream. (.open fs pt))
             length (.getLength b)
             arr (byte-array length)]
         (.seek fdis (.getOffset b))
