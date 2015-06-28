@@ -6,9 +6,9 @@
 
 (defn -main [& args]
   (System/setProperty "HADOOP_USER_NAME" "root")
-  (let [pt (Path. "hdfs://localhost:9000/target_file.txt")
+  (let [pt (Path. "hdfs://0.0.0.0:9000/target_file.txt")
         cfg (Configuration.)
-        _ (.addResource cfg (Path. "file://home/root/core-site.xml"))
+        _ (.addResource cfg (Path. "file:///home/root/core-site.xml"))
         fs (FileSystem/get cfg)
         br (BufferedWriter. (OutputStreamWriter. (.create fs pt true)))]
     (.write br "Hello Onyx world!")
